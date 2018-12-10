@@ -1,0 +1,24 @@
+.suggestion-box
+{
+	position: absolute;
+	z-index: 1000;
+	display: none;
+	float: left;
+	min-width: 160px;
+	margin: 2px 0 0;
+	padding-top:5px;
+	font-size: 14px;
+	text-align: left;
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+}
+.suggestion-box ul
+{
+	padding:0px;
+	padding-left:8%;
+}
+.suggestion-box li
+{
+	list-style-type: none;
+	line-height: 30px;
+}
