@@ -45,7 +45,7 @@
 					<br>
 					<form method="post" action="/uploadcsv">
 						{{csrf_field()}}
-					    <input type="file" name="file" class="file btn btn-sm" required>
+					    <input type="file" name="file" class="file btn btn-sm" accept=".csv">
 					    <input type="submit" name="submit" class="submit btn btn-sm btn-info" value="Submit">
 					</form>
 					<hr>
