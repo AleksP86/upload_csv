@@ -51,15 +51,15 @@ class HomeController extends Controller
 	    /*if appropriate items is not found find simmilar items but set mark to open in new page*/
 	    if(count($results)<1)
 	    {
-	    	$results = DB::table('products')
+	    	/*$results = DB::table('products')
 	    	->when($request->barcode, function($query) use ($request){
 	        return $query->where('barcode', 'like', '%' . $request->barcode . '%');
 	    	})
 	    	->when($request->product, function($query) use ($request){
 	        return $query->where('name', 'like', '%' . $request->product . '%');
 	    	})
-	    	->orderBy('name')->get();
-	    	return response()->json(['entries'=>$results,'new_page'=>true]);
+	    	->orderBy('name')->get();*/
+	    	return response()->json(['new_page'=>true]);
 	    }
     	return response()->json(['entries'=>$results,'new_page'=>false]);
     }
@@ -79,5 +79,18 @@ class HomeController extends Controller
     function separate(Request $request, $slug)
     {
     	return view('separate', ["html" => $slug]);
+    }
+    function separate_filter(Request $request)
+    {
+    	$this->check_is_ajax($request);
+    	$results = DB::table('products')
+    	->when($request->barcode, function($query) use ($request){
+        return $query->where('barcode', 'like', '%' . $request->barcode . '%');
+    	})
+    	->when($request->product, function($query) use ($request){
+        return $query->where('name', 'like', '%' . $request->product . '%');
+    	})
+    	->orderBy('name')->get();
+    	return response()->json(['entries'=>$results]);
     }
 }

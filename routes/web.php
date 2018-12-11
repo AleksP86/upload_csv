@@ -15,5 +15,6 @@ Route::post('/uploadcsv','UploadController@csvfileupload');
 
 Route::post('/search/browse','HomeController@browse');
 Route::post('/search/filter','HomeController@filter');
+Route::post('/search/separate_filter','HomeController@separate_filter');
 
 Route::get('/new_page/{slug}','HomeController@separate');

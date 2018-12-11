@@ -93,10 +93,11 @@ $(document).ready(function()
 	});
 
 	/*hide suggestion boxes on side click to see again field they covered*/
-	$("#search_div").click( function()
+	$('html').click( function()
 	{
 		$('.suggestion-box').hide();
 	});
+
 });
 	/*activate selected value from dropdown and addd it to form inoupt and hide dropdown*/
 	function selectDrop(id, val)
@@ -117,6 +118,7 @@ $(document).ready(function()
 		if(!proceed)
 		{
 			$('#message_holder').html('You must fill at least one field.');
+			$('#table-holder').html('');
 			return false;
 		}
 		$('#message_holder').html('');
@@ -129,14 +131,8 @@ $(document).ready(function()
 			success: function(data)
 			{
 				if(data.new_page==true)
-				{
-					var txt='';
-					$.each(data.entries, function(key, val)
-						{
-							txt+=val.name+';'+val.barcode+'+';
-						});
-					
-					var win = window.open('/new_page/'+txt, '_blank');
+				{					
+					var win = window.open('/new_page/'+form_data, '_blank');
 					if (win) {
 					    //Browser has allowed it to be opened
 					    win.focus();
@@ -144,7 +140,6 @@ $(document).ready(function()
 					    //Browser has blocked it
 					    alert('Please allow popups for this website');
 					}
-					
 				}
 				else
 				{

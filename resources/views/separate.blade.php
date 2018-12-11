@@ -1,29 +1,49 @@
 <!DOCTYPE>
 <html>
 <head>
+	<title>Results page</title>
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 	<link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
 	<script src="{{asset('js/bootstrap.js')}}"></script>
 </head>
 <body>
-	<div class="col-md-12" style="padding:10px;" id="table_holder" style></div>
+	<div class="col-md-12" style="padding:20px;padding-top:10%;" align='center'>
+		<div class="col-md-6" id="table-holder"></div>
+	</div>
 </body>
 <script>
 	/*grab html value to use it in js*/
-	var type = "<?php echo $html ?>";
-	/*split string to items and prepare table drawing*/
-	var spl1=type.split('+');
-	var html='<table border="1"><tr><th style="padding:10px;">Barcode</th><th style="padding:10px;">Product</th></tr>';
-	$.each(spl1, function(key,val)
+	var form_data = "<?php echo $html ?>";
+	$(document).ready(function()
 	{
-		/*prepare row drawing for eachitem barcode and name*/
-		var spl2=val.split(';');
-		if(spl2[0]!='')
-		{
-			html+='<tr><td style="padding:10px;">'+spl2[1]+'</td><td style="padding:10px;">'+spl2[0]+'</td></tr>';
-		}
+		draw();
 	});
-	html+='</table>';
-	$('#table_holder').html(html);
+
+	$.ajaxSetup({
+	    headers: {
+	        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	    }
+	});
+
+	function draw()
+	{
+		$.ajax({
+			url:'/search/separate_filter',
+			type:"post",
+			data: form_data,
+			dataType:'json',
+			success: function(data)
+			{
+				var html='<table style="width:100%;" class="table table-sm"><tr><th>Barcode</th><th>Product</th></tr>';
+				$.each(data.entries, function(index, element)
+				{
+					html+="<tr><td style='white-space: nowrap;'>"+element.barcode+"</td><td style='white-space: nowrap;'>"+element.name+"</td></tr>";
+				});
+				html+='</table><hr>';
+				$('#table-holder').html(html);
+			}
+		});
+	}
 </script>
 </html>
