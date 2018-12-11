@@ -60,7 +60,9 @@ $(document).ready(function()
 	$('#barcode, #product').on('keyup',function()
 	{
 		var ids=$(this).attr('id');//get id to recognize was barcode or product typed
-		var valu=$(this).val();//get chosen field value for search
+		var valu=$(this).val().trim();//get chosen field value for search
+		if(valu!='')
+		{
 		$.ajax({
 				url:'/search/browse',
 				type:"post",
@@ -90,6 +92,7 @@ $(document).ready(function()
 					}
 				}
 			});
+		}
 	});
 
 	/*hide suggestion boxes on side click to see again field they covered*/
@@ -111,7 +114,7 @@ $(document).ready(function()
 	{
 		var proceed=true;
 		/*if both fields are empty write message*/
-		if($('#barcode').val()=='' && $('#product').val()=='')
+		if($('#barcode').val().trim()=='' && $('#product').val().trim()=='')
 		{
 			proceed=false;
 		}
